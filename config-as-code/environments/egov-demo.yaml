@@ -568,27 +568,27 @@ fluent-bit:
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 # kafka-v2 AWS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-kafka-v2:
-  image:
-    tag: "5.4.1"
-  persistence:
-    enabled: true
-    aws:
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
-  zookeeperHosts: "zookeeper-v2.zookeeper-cluster:2181/kafka-v2"
+# kafka-v2:
+#   image:
+#     tag: "5.4.1"
+#   persistence:
+#     enabled: true
+#     aws:
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
+#   zookeeperHosts: "zookeeper-v2.zookeeper-cluster:2181/kafka-v2"
 
-  heapOptions: "-Xms704M -Xmx704M"
-  memory_limits: 1408Mi
-  lingerMs: "250"
-  numberPartitions: "3"
-  replicationFactor: "2"
-  minInsyncReplicas: "1"
-  offsetsReplicationFactor: "3"
+#   heapOptions: "-Xms704M -Xmx704M"
+#   memory_limits: 1408Mi
+#   lingerMs: "250"
+#   numberPartitions: "3"
+#   replicationFactor: "2"
+#   minInsyncReplicas: "1"
+#   offsetsReplicationFactor: "3"
 
 ### Kafka Connect <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 kafka-connect:
@@ -620,50 +620,44 @@ kafka-connect:
 
 ## kafka-v2 SDC >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-#kafka-v2:
-#  image:
-#    tag: "5.4.1"
-#  persistence:
-#    enabled: true
-#    iscsi:
-#      targetPortal: 10.67.49.8:3260 ## change the targetPortal with yours.
-#      iqn:
-#      - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt0   ## change the iqn with yours.
-#      - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt1   ## change the iqn with yours.
-#      - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt2   ## change the iqn with yours.
-#  zookeeperHosts: "zookeeper-v2.zookeeper-cluster:2181/kafka-v2"
-#  storage-size: "75Gi
-#  heapOptions: "-Xms704M -Xmx704M"
-#  memory_limits: 1408Mi
-#  lingerMs: "250"
-#  numberPartitions: "3"
-#  replicationFactor: "2"
-#  minInsyncReplicas: "1"
-#  offsetsReplicationFactor: "3"
+kafka-v2:
+ image:
+   tag: "5.4.1"
+ persistence:
+   enabled: false
+ zookeeperHosts: "zookeeper-v2.zookeeper-cluster:2181/kafka-v2"
+ storage-size: "10Gi"
+ heapOptions: "-Xms704M -Xmx704M"
+ memory_limits: 1408Mi
+ lingerMs: "250"
+ numberPartitions: "3"
+ replicationFactor: "2"
+ minInsyncReplicas: "1"
+ offsetsReplicationFactor: "3"
 
 # zookeeper-v2 AWS >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-zookeeper-v2:
-  image:
-    tag: "5.4.1"
-  persistence:
-    enabled: true
-    aws:
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
+# zookeeper-v2:
+#   image:
+#     tag: "5.4.1"
+#   persistence:
+#     enabled: true
+#     aws:
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
 
-  ## Zookeeper JVM Heap Option
-  heapOptions: "-Xms256M -Xmx256M"
-  resources:
-    limits:
-      cpu: 300m
-      memory: 384Mi
-    requests:
-      cpu: 300m
-      memory: 384Mi
+#   ## Zookeeper JVM Heap Option
+#   heapOptions: "-Xms256M -Xmx256M"
+#   resources:
+#     limits:
+#       cpu: 300m
+#       memory: 384Mi
+#     requests:
+#       cpu: 300m
+#       memory: 384Mi
 
 # zookeeper-v2 Azure >>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
 #zookeeper-v2:
@@ -691,49 +685,42 @@ zookeeper-v2:
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 ## zookeeper-v2 SDC <<<<<<<<<<<<<<<<<
-#zookeeper-v2:
-#  image:
-#    tag: "5.4.1"
-#  persistence:
-#    enabled: true
-#    iscsi:
-#      targetPortal: 10.67.49.8:3260  ## change the targetPortal with yours.
-#      iqn:
-#      - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt3  ## change the iqn with yours.
-#      - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt4  ## change the iqn with yours.
-#      - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt5  ## change the iqn with yours.   
-
-#  storage-size: 5Gi
-#  heapOptions: "-Xms256M -Xmx256M"
-#  resources:
-#    limits:
-#      cpu: 300m
-#      memory: 384Mi
-#    requests:
-#      cpu: 300m
-#      memory: 384Mi
+zookeeper-v2:
+ image:
+   tag: "5.4.1"
+ persistence:
+   enabled: false
+ storage-size: 5Gi
+ heapOptions: "-Xms256M -Xmx256M"
+ resources:
+   limits:
+     cpu: 300m
+     memory: 384Mi
+   requests:
+     cpu: 300m
+     memory: 384Mi
 
 
 # es-v1-cluster AWS >>>>>>>>>>>>>>>>>>>>>>>>>>>>
-elasticsearch-data-v1:
-  image:
-    tag: 6.6.2
-  persistence:
-    enabled: true
-    aws:
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
+# elasticsearch-data-v1:
+#   image:
+#     tag: 6.6.2
+#   persistence:
+#     enabled: true
+#     aws:
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
 
-  esJavaOpts: "-Xmx1g -Xms1g"
-  resources:
-    requests:
-      memory: "2Gi"
-    limits:
-      memory: "2Gi"
+#   esJavaOpts: "-Xmx1g -Xms1g"
+#   resources:
+#     requests:
+#       memory: "2Gi"
+#     limits:
+#       memory: "2Gi"
 ## es-data-v1 Azure >>>>>>>>>>>>>>>>>>>>>
 #elasticsearch-data-v1:
 #  image:
@@ -756,48 +743,42 @@ elasticsearch-data-v1:
 #      memory: "896Mi" 
 
 ## es-data-v1 SDC<<<<<<<<<<<<<<<
-#elasticsearch-data-v1:
-#  image:
-#    tag: 6.6.2
-#  persistence:
-#    enabled: true
-#    iscsi:
-#       targetPortal: 10.67.49.8:3260  ## change the targetPortal with yours.
-#       iqn:
-#       - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt17  ## change the iqn with yours.
-#       - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt16  ## change the iqn with yours.
-#       - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt19  ## change the iqn with yours.
-#  storage-size: 25Gi
-#  esJavaOpts: "-Xmx1g -Xms1g"
-#   storage-size: 25Gi 
-#  resources:
-#    requests:
-#      memory: "896Mi"
-#    limits:
-#      memory: "896Mi" 
+elasticsearch-data-v1:
+ image:
+   tag: 6.6.2
+ persistence:
+   enabled: false
+ storage-size: 25Gi
+ esJavaOpts: "-Xmx1g -Xms1g"
+  storage-size: 25Gi 
+ resources:
+   requests:
+     memory: "896Mi"
+   limits:
+     memory: "896Mi" 
 
 ### es-master-v1 AWS >>>>>>>>>>>>>>>>>>>>
 
-elasticsearch-master-v1:
-  replicas: 3
-  image:
-    tag: 6.6.2
-  persistence:
-    enabled: true
-    aws:
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
-      - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
-        zone: <zone>            ## add your respective zone eg. ap-south-1a
+# elasticsearch-master-v1:
+#   replicas: 3
+#   image:
+#     tag: 6.6.2
+#   persistence:
+#     enabled: true
+#     aws:
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
+#       - volumeId: "<volume_id>" ## add your respective volume id eg. vol-0085073c65f76dre5
+#         zone: <zone>            ## add your respective zone eg. ap-south-1a
  
-  esJavaOpts: "-Xmx448m -Xms448m"
-  resources:
-    requests:
-      memory: "896Mi"
-    limits:
-      memory: "896Mi"
+#   esJavaOpts: "-Xmx448m -Xms448m"
+#   resources:
+#     requests:
+#       memory: "896Mi"
+#     limits:
+#       memory: "896Mi"
 
 ## es-master-v1 Azure >>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 #elasticsearch-master-v1:
@@ -822,25 +803,19 @@ elasticsearch-master-v1:
 #      memory: "896Mi"   
 
 ## es-master-v1 SDC <<<<<<<<<<<<<<<<<<<<
-#elasticsearch-master-v1:
-#  replicas: 3
-#  image:
-#    tag: 6.6.2
-#  persistence:
-#    enabled: true
-#    iscsi:
-#      targetPortal: 10.67.49.8:3260  ## change the targetPortal with yours.
-#      iqn:
-#      - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt14  ## change the iqn with yours.
-#      - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt15  ## change the iqn with yours.
-#      - iqn.2010-06.com.nutanix:kubernete-72b39064-fdbf-48d3-abfa-7a36c956d535-tgt16  ## change the iqn with yours.
-#  storage-size: 5Gi 
-#  esJavaOpts: "-Xmx448m -Xms448m"
-#  resources:
-#    requests:
-#      memory: "896Mi"
-#    limits:
-#      memory: "896Mi"    
+elasticsearch-master-v1:
+ replicas: 1
+ image:
+   tag: 6.6.2
+ persistence:
+   enabled: false
+ storage-size: 5Gi 
+ esJavaOpts: "-Xmx448m -Xms448m"
+ resources:
+   requests:
+     memory: "896Mi"
+   limits:
+     memory: "896Mi"    
 
 es-curator:
   schedule: "45 18 * * *"
