@@ -2,12 +2,14 @@ version: v2.4
 modules:
     - name: backbone
       services:
-        - zookeeper
-        - kafka
-        - postgres
+        - zookeeper-v2
+        - kafka-v2
+        #- postgres
         - ingress-nginx
         - redis
-        - s3-proxy      
+        - elasticsearch-data-v1
+        - elasticsearch-master-v1
+        #- s3-proxy      
     - name: core
       dependencies:
         - "backbone" 
@@ -26,22 +28,31 @@ modules:
         - egovio/egov-location:v1.1.4-72f8a8f87b-6
         - zuul:v1.3.1-96b24b0d72-39 
         - egovio/egov-user-event:v1.2.0-c1e1e8ce24-21
-
     - name: business
       dependencies:
         - "core"
       services:
         - egovio/egov-hrms:v1.2.5-1715164454-6
-    - name: "frontend"             
+    - name: frontend             
       dependencies:
         - "business"
       services:
         - egovio/employee:v1.8.0-2ac8314b2f-116
         - egovio/digit-ui:v1.5.0-dc44c10a7b-739  
-    - name: m_pgr             #PGR
+        - egovio/citizen:v1.9.0-98adbd4488-17
+    - name: m_pgr             
       dependencies:
         - "core"
         - "business"
       services:
         - egovio/pgr-services:v1.1.4-c856353983-23
+    - name: m_dss   #dss
+      dependencies:        
+          - "frontend"
+          - "core"
+          - "business"
+      services:
+        - egovio/dashboard-analytics:v1.1.8-d93a120c25-2
+        - egovio/dashboard-ingest:v1.1.4-d93a120c25-2  
+        - egovio/dss-dashboard:v1.9.0-98adbd4488-1
    
