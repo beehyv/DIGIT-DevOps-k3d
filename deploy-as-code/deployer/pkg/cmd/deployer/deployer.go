@@ -139,7 +139,7 @@ func deployClusterConfigs(index map[string]string, configDir string, envOverride
 		log.Panicln("Failed to create temporary directory", err)
 	}
 
-	tmpDecFile, err := ioutil.TempFile(tmpDir, "helm-dec-")
+	//tmpDecFile, err := ioutil.TempFile(tmpDir, "helm-dec-")
 	if err != nil {
 		log.Panicln("Failed to create temporary file", err)
 	}
@@ -155,9 +155,9 @@ func deployClusterConfigs(index map[string]string, configDir string, envOverride
 		fmt.Println(err)
 		args = append(args, fmt.Sprintf("-f %s", envSecretFile))
 	} else {
-		sopsDecryptCmd := fmt.Sprintf("sops -d --output %s %s", tmpDecFile.Name(), envSecretFile)
-		execCommand(sopsDecryptCmd, configDir)
-		args = append(args, fmt.Sprintf("-f %s", tmpDecFile.Name()))
+		// sopsDecryptCmd := fmt.Sprintf("sops -p --output %s %s", tmpDecFile.Name(), envSecretFile)
+		// execCommand(sopsDecryptCmd, configDir)
+		args = append(args, fmt.Sprintf("-f %s", envSecretFile))
 	}
 
 	helmTemplate := fmt.Sprintf("helm template %s .", strings.Join(args[:], " "))
