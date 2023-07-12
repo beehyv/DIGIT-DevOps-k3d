@@ -1,6 +1,6 @@
 
 variable "cluster_name" {
-  default = "magramseva-uat
+  default = "magramseva-uat"
 }
 
 variable "instance_types" {
