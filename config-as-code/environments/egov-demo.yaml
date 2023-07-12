@@ -1,6 +1,6 @@
 global:
-   domain: <Domain_name> ## Add your Domain Name "Eg: site.mydomain.com" Do not use the dummy domain
-   setup: fullsetup
+   domain: "digit.beehyv.com" ## Add your Domain Name "Eg: site.mydomain.com" Do not use the dummy domain
+   setup: quickstart
 
 cluster-configs:
     namespaces:  
@@ -13,11 +13,11 @@ cluster-configs:
         egov-config:
             namespace: [ egov, monitoring ]
             data:
-                db-host: "<db_host_name>" ## Add db-host name eg: egov-demo.database.azure.com
-                db-name: "<db_name>" ## Add db-name
-                db-url: "<db_url>" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
-                domain: "<Domain_name>" ## Add your Domain Name    
-                egov-services-fqdn-name: "https://<Domain_name>/" ## Add your Domain Name
+                db-host: "postgres.postgres.svc.cluster.local" ## Add db-host name eg: egov-demo.database.azure.com
+                db-name: "registry" ## Add db-name
+                db-url: "jdbc:postgresql://postgres.postgres.svc.cluster.local:5432/registry" ## example: jdbc:postgresql://egov-demo.postgres.database.azure.com:5432/egov_demo
+                domain: "digit.beehyv.com" ## Add your Domain Name    
+                egov-services-fqdn-name: "http://digit.beehyv.com/" ## Add your Domain Name
                 
                 egov-state-level-tenant-id: "pg" 
                 s3-assets-bucket: "(pg-egov-assets|egov-playground-assets)"
@@ -213,7 +213,7 @@ egov-user:
   citizen-registration-withlogin: "true"
   citizen-otp-fixed: "123456"
   citizen-otp-fixed-enabled: "true"
-  egov-state-level-tenant-id: "in"
+  egov-state-level-tenant-id: "pg"
   decryption-abac-enabled: "false"
 
 chatbot:
@@ -267,13 +267,13 @@ egov-mdms-service:
   replicas: 1
   images:
     - egovio/egov-mdms-service
-  mdms-path: "/work-dir/egov-mdms-data/data"
+  mdms-path: "/work-dir/egov-mdms-data.git/data"
   initContainers:
     gitSync:
-      repo: "git@github.com:egovernments/egov-mdms-data"   ##### Change repo url with Your fork Repo url
+      repo: "https://github.com/beehyv/egov-mdms-data.git"   ##### Change repo url with Your fork Repo url
       branch: "UAT"                                        ##### Change repo branch with Your fork Repo branch
-  mdms-folder: "egov-mdms-data"
-  masters-config-url: "file:///work-dir/egov-mdms-data/master-config.json"
+  mdms-folder: "egov-mdms-data.git"
+  masters-config-url: "file:///work-dir/egov-mdms-data.git/master-config.json"
   java-args: -Dspring.profiles.active=monitoring
 
 egov-indexer:
@@ -281,45 +281,45 @@ egov-indexer:
   memory_limits: "768Mi"
   initContainers:
     gitSync:
-      repo: "git@github.com:egovernments/configs"        ##### Change repo url with Your fork Repo url
+      repo: "https://github.com/beehyv/digit-configs.git"        ##### Change repo url with Your fork Repo url
       branch: "UAT"                                      ##### Change repo branch with Your fork Repo branch
-  egov-indexer-yaml-repo-path: "file:///work-dir/configs/egov-indexer/billingservices-indexer.yml,file:///work-dir/configs/egov-indexer/collection-indexer.yml,file:///work-dir/configs/egov-indexer/egov-telemetry-indexer.yml,file:///work-dir/configs/egov-indexer/egov-uploader-indexer.yml,file:///work-dir/configs/egov-indexer/error-queue.yml,file:///work-dir/configs/egov-indexer/finance-rolloutadotpion-indexer.yml,file:///work-dir/configs/egov-indexer/payment-indexer.yml,file:///work-dir/configs/egov-indexer/rainmaker-pgr-indexer.yml,file:///work-dir/configs/egov-indexer/rainmaker-pt-indexer.yml,file:///work-dir/configs/egov-indexer/rainmaker-tl-indexer.yml,file:///work-dir/configs/egov-indexer/chatbot-telemetry.yaml"
+  egov-indexer-yaml-repo-path: "file:///work-dir/digit-configs.git/egov-indexer/billingservices-indexer.yml,file:///work-dir/digit-configs.git/egov-indexer/collection-indexer.yml,file:///work-dir/digit-configs.git/egov-indexer/egov-telemetry-indexer.yml,file:///work-dir/digit-configs.git/egov-indexer/egov-uploader-indexer.yml,file:///work-dir/digit-configs.git/egov-indexer/error-queue.yml,file:///work-dir/digit-configs.git/egov-indexer/finance-rolloutadotpion-indexer.yml,file:///work-dir/digit-configs.git/egov-indexer/payment-indexer.yml,file:///work-dir/digit-configs.git/egov-indexer/rainmaker-pgr-indexer.yml,file:///work-dir/digit-configs.git/egov-indexer/rainmaker-pt-indexer.yml,file:///work-dir/digit-configs.git/egov-indexer/rainmaker-tl-indexer.yml,file:///work-dir/digit-configs.git/egov-indexer/chatbot-telemetry.yaml"
 
 egov-persister:
   replicas: 1
   images:
     - egovio/egov-persister
-  persist-yml-path: "file:///work-dir/configs/egov-persister/pt-mutation-calculator-persister.yml,file:///work-dir/configs/egov-persister/apportion-persister.yml,file:///work-dir/configs/egov-persister/billing-services-persist.yml,file:///work-dir/configs/egov-persister/egf-bill.yaml,file:///work-dir/configs/egov-persister/egov-user-event-persister.yml,file:///work-dir/configs/egov-persister/egov-workflow-v2-persister.yml,file:///work-dir/configs/egov-persister/firenoc_persiter.yaml,file:///work-dir/configs/egov-persister/hrms-employee-persister.yml,file:///work-dir/configs/egov-persister/pdf-generator.yml,file:///work-dir/configs/egov-persister/pg-service-persister.yml,file:///work-dir/configs/egov-persister/pgr.v3.yml,file:///work-dir/configs/egov-persister/property-services.yml,file:///work-dir/configs/egov-persister/pt-calculator-v2-persister.yml,file:///work-dir/configs/egov-persister/pt-drafts.yml,file:///work-dir/configs/egov-persister/pt-persist.yml,file:///work-dir/configs/egov-persister/tl-billing-slab-persister.yml,file:///work-dir/configs/egov-persister/tl-calculation-persister.yml,file:///work-dir/configs/egov-persister/uploader-persister.yml,file:///work-dir/configs/egov-persister/collection-migration-persister.yml,file:///work-dir/configs/egov-persister/property-services-registry.yml,file:///work-dir/configs/egov-persister/tradelicense.yml,file:///work-dir/configs/egov-persister/sewerage-persist.yml,file:///work-dir/configs/egov-persister/water-persist.yml,file:///work-dir/configs/egov-persister/water-meter.yml,file:///work-dir/configs/egov-persister/bpa-persister.yml,file:///work-dir/configs/egov-persister/assessment-persister.yml,file:///work-dir/configs/egov-persister/chatbot.yml"
+  persist-yml-path: "file:///work-dir/digit-configs.git/egov-persister/pt-mutation-calculator-persister.yml,file:///work-dir/digit-configs.git/egov-persister/apportion-persister.yml,file:///work-dir/digit-configs.git/egov-persister/billing-services-persist.yml,file:///work-dir/digit-configs.git/egov-persister/egf-bill.yaml,file:///work-dir/digit-configs.git/egov-persister/egov-user-event-persister.yml,file:///work-dir/digit-configs.git/egov-persister/egov-workflow-v2-persister.yml,file:///work-dir/digit-configs.git/egov-persister/firenoc_persiter.yaml,file:///work-dir/digit-configs.git/egov-persister/hrms-employee-persister.yml,file:///work-dir/digit-configs.git/egov-persister/pdf-generator.yml,file:///work-dir/digit-configs.git/egov-persister/pg-service-persister.yml,file:///work-dir/digit-configs.git/egov-persister/pgr.v3.yml,file:///work-dir/digit-configs.git/egov-persister/property-services.yml,file:///work-dir/digit-configs.git/egov-persister/pt-calculator-v2-persister.yml,file:///work-dir/digit-configs.git/egov-persister/pt-drafts.yml,file:///work-dir/digit-configs.git/egov-persister/pt-persist.yml,file:///work-dir/digit-configs.git/egov-persister/tl-billing-slab-persister.yml,file:///work-dir/digit-configs.git/egov-persister/tl-calculation-persister.yml,file:///work-dir/digit-configs.git/egov-persister/uploader-persister.yml,file:///work-dir/digit-configs.git/egov-persister/collection-migration-persister.yml,file:///work-dir/digit-configs.git/egov-persister/property-services-registry.yml,file:///work-dir/digit-configs.git/egov-persister/tradelicense.yml,file:///work-dir/digit-configs.git/egov-persister/sewerage-persist.yml,file:///work-dir/digit-configs.git/egov-persister/water-persist.yml,file:///work-dir/digit-configs.git/egov-persister/water-meter.yml,file:///work-dir/digit-configs.git/egov-persister/bpa-persister.yml,file:///work-dir/digit-configs.git/egov-persister/assessment-persister.yml,file:///work-dir/digit-configs.git/egov-persister/chatbot.yml"
   initContainers:
     gitSync:
-      repo: "git@github.com:egovernments/configs"      ##### Change repo url with Your fork Repo url
+      repo: "https://github.com/beehyv/digit-configs.git"      ##### Change repo url with Your fork Repo url
       branch: "UAT"                                    ##### Change repo branch with Your fork Repo branch
 
 egov-data-uploader:
   initContainers:
     gitSync:
-      repo: "git@github.com:egovernments/configs"      ##### Change repo url with Your fork Repo url
+      repo: "git@github.com:beehyv/digit-configs.git"      ##### Change repo url with Your fork Repo url
       branch: "UAT"                                    ##### Change repo branch with Your fork Repo branch
 
 egov-searcher:
   search-yaml-path: "file:///work-dir/configs/egov-searcher/rainmaker-pgr-v2.yml,file:///work-dir/configs/egov-searcher/weekly-impact-emailer-searcher.yml,file:///work-dir/configs/egov-searcher/PTDemandBasedSearcher.yml,file:///work-dir/configs/egov-searcher/bill-genie.yml,file:///work-dir/configs/egov-searcher/rainmaker-tl.yml,file:///work-dir/configs/egov-searcher/localitySearcher.yml"
   initContainers:
     gitSync:
-      repo: "git@github.com:egovernments/configs"     ##### Change repo url with Your fork Repo url
+      repo: "git@github.com:beehyv/digit-configs.git"     ##### Change repo url with Your fork Repo url
       branch: "UAT"                                   ##### Change repo branch with Your fork Repo branch
 
 dashboard-analytics:
-  config-schema-paths: "file:///work-dir/configs/egov-dss-dashboards/dashboard-analytics/*.json"
+  config-schema-paths: "file:///work-dir/digit-configs.git/egov-dss-dashboards/dashboard-analytics/*.json"
   initContainers:
     gitSync:
-      repo: "git@github.com:egovernments/configs"      ##### Change repo url with Your fork Repo url
+      repo: "https://github.com/beehyv/digit-configs.git"      ##### Change repo url with Your fork Repo url
       branch: "UAT"                                    ##### Change repo branch with Your fork Repo branch
 
 dashboard-ingest:
-  config-schema-paths: "file:///work-dir/configs/egov-dss-dashboards/dashboard-ingest/*.json"
+  config-schema-paths: "file:///work-dir/digit-configs.git/egov-dss-dashboards/dashboard-ingest/*.json"
   initContainers:
     gitSync:
-      repo: "git@github.com:egovernments/configs"      ##### Change repo url with Your fork Repo url
+      repo: "https://github.com/beehyv/digit-configs.git"      ##### Change repo url with Your fork Repo url
       branch: "UAT"                                    ##### Change repo branch with Your fork Repo branch
 
 # reportinfra >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -340,15 +340,15 @@ report:
   spring-datasource-tomcat-max-active: 5
   initContainers:
     gitSync:
-      repo: "git@github.com:egovernments/configs"     ##### Change repo url with Your fork Repo url
-      branch: "UAT"                                   ##### Change repo branch with Your fork Repo branch
+      repo: "git@github.com:beehyv/DIGIT-DevOps-k3d.git"     ##### Change repo url with Your fork Repo url
+      branch: "kubernetes-1.22-changes"                                   ##### Change repo branch with Your fork Repo branch
   report-locationsfile-path: "file:///work-dir/configs/reports/reportFileLocationsv1.txt"
 
 pdf-service:
   initContainers:
     gitSync:
-      repo: "git@github.com:egovernments/configs"     ##### Change repo url with Your fork Repo url
-      branch: "UAT"                                   ##### Change repo branch with Your fork Repo branch
+      repo: "git@github.com:beehyv/DIGIT-DevOps-k3d.git"     ##### Change repo url with Your fork Repo url
+      branch: "kubernetes-1.22-changes"                                   ##### Change repo branch with Your fork Repo branch
   data-config-urls: "file:///work-dir/configs/pdf-service/data-config/tradelicense-receipt.json,file:///work-dir/configs/pdf-service/data-config/property-receipt.json,file:///work-dir/configs/pdf-service/data-config/property-bill.json,file:///work-dir/configs/pdf-service/data-config/tradelicense-bill.json,file:///work-dir/configs/pdf-service/data-config/firenoc-receipt.json,file:///work-dir/configs/pdf-service/data-config/pt-receipt.json,file:///work-dir/configs/pdf-service/data-config/tl-receipt.json,file:///work-dir/configs/pdf-service/data-config/consolidatedbill.json,file:///work-dir/configs/pdf-service/data-config/consolidatedreceipt.json,file:///work-dir/configs/pdf-service/data-config/tlapplication.json,file:///work-dir/configs/pdf-service/data-config/passvehicle-certificate.json,file:///work-dir/configs/pdf-service/data-config/ws-consolidatedacknowlegment.json,file:///work-dir/configs/pdf-service/data-config/ws-consolidatedsewerageconnection.json,file:///work-dir/configs/pdf-service/data-config/buildingpermit.json,file:///work-dir/configs/pdf-service/data-config/ptmutationcertificate.json,file:///work-dir/configs/pdf-service/data-config/tlrenewalcertificate.json,file:///work-dir/configs/pdf-service/data-config/bpa-revocation.json,file:///work-dir/configs/pdf-service/data-config/buildingpermit-low.json,file:///work-dir/configs/pdf-service/data-config/misc-receipt.json,file:///work-dir/configs/pdf-service/data-config/ws-applicationwater.json,file:///work-dir/configs/pdf-service/data-config/ws-sanctionletter.json,file:///work-dir/configs/pdf-service/data-config/ws-estimationnotice.json,file:///work-dir/configs/pdf-service/data-config/ws-applicationsewerage.json,file:///work-dir/configs/pdf-service/data-config/tlcertificate.json"
   format-config-urls: "file:///work-dir/configs/pdf-service/format-config/tradelicense-receipt.json,file:///work-dir/configs/pdf-service/format-config/property-receipt.json,file:///work-dir/configs/pdf-service/format-config/property-bill.json,file:///work-dir/configs/pdf-service/format-config/tradelicense-bill.json,file:///work-dir/configs/pdf-service/format-config/firenoc-receipt.json,file:///work-dir/configs/pdf-service/format-config/pt-receipt.json,file:///work-dir/configs/pdf-service/format-config/tl-receipt.json,file:///work-dir/configs/pdf-service/format-config/consolidatedbill.json,file:///work-dir/configs/pdf-service/format-config/consolidatedreceipt.json,file:///work-dir/configs/pdf-service/format-config/tlapplication.json,file:///work-dir/configs/pdf-service/format-config/passvehicle-certificate.json,file:///work-dir/configs/pdf-service/format-config/ws-consolidatedacknowlegment.json,file:///work-dir/configs/pdf-service/format-config/ws-consolidatedsewerageconnection.json,file:///work-dir/configs/pdf-service/format-config/buildingpermit.json,file:///work-dir/configs/pdf-service/format-config/ptmutationcertificate.json,file:///work-dir/configs/pdf-service/format-config/tlrenewalcertificate.json,file:///work-dir/configs/pdf-service/format-config/bpa-revocation.json,file:///work-dir/configs/pdf-service/format-config/buildingpermit-low.json,file:///work-dir/configs/pdf-service/format-config/misc-receipt.json,file:///work-dir/configs/pdf-service/format-config/ws-applicationwater.json,file:///work-dir/configs/pdf-service/format-config/ws-sanctionletter.json,file:///work-dir/configs/pdf-service/format-config/ws-estimationnotice.json,file:///work-dir/configs/pdf-service/format-config/ws-applicationsewerage.json,file:///work-dir/configs/pdf-service/format-config/tlcertificate.json"
 
@@ -377,6 +377,7 @@ redoc:
 
 # gateway >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
+# 
 nginx-ingress:
   images:
     - quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1
@@ -399,6 +400,7 @@ zuul:
   heap: "-Xmx704m -Xms512m"
   server-tomcat-max-threads: "350"
   server-tomcat-max-connections: "1500"
+  memory_limits: 896Mi
   egov-open-endpoints-whitelist: "/user/oauth/token,/user-otp/v1/_send,/otp/v1/_validate,/user/citizen/_create,/localization/messages,/localization/messages/v1/_search,/user/password/nologin/_update,/pgr/servicedefinition/v1/_search,/pgr/servicecategories/v1/_search,/pgr/v1/otp/_send,/pgr-master/receivingmode/v1/_search,/tenant/v1/tenant/_search,/egov-location/boundarys,/egov-location/boundarys/boundariesByBndryTypeNameAndHierarchyTypeName,/pgr-master/service/v1/_search,/egov-location/boundarys/getLocationByLocationName,/pgr-master/OTPConfig/_search,/pgr-master/serviceGroup/v1/_search,/egov-location/boundarys/isshapefileexist,/pgr/services/v1/_search,/hr-masters/hrconfigurations/_search,/collection-services/receipts/_view,/pgr-master/service/v2/_search,/pgr-master/servicedefinition/v1/_search,/citizen-services,/citizen-services/v1/requests/receipt/_create,/citizen-services/v1/pgresponse,/citizen-services/v1/requests/anonymous/_search,/egov-mdms-service/v1/_search,/egov-mdms-service/v1/_get,/egov-mdms-service/v1/_reload,/egov-mdms-service/v1/_reloadobj,/egov-location/boundarys/getshapefile,/egov-indexer/index-operations/_index,/egov-indexer/index-operations/_reload,/egov-mdms-service-test/v1/_search,/egov-mdms-create/v1/_update,/egov-mdms-create/v1/_create,/egov-mdms-service-test/v1/_reload,/filestore/v1/files/url,/egov-url-shortening,/whatsapp-webhook/messages,/edcr/rest/dcr/downloadfile,/dashboard-ingest/ingest/upload,/egov-searcher/water-services/wateropensearch/_get,/egov-searcher/sewerage-services/sewerageopensearch/_get,/xstate-chatbot/status,/xstate-chatbot/reminder,/nlp-engine/fuzzy/city,/nlp-engine/fuzzy/locality"
   egov-mixed-mode-endpoints-whitelist: "/pgr/seva/v1/_create,/pgr/seva/v1/_search,/pgr/seva/v1/_count,/workflow/history/v1/_search,/filestore/v1/files/id,/filestore/v1/files,/filestore/v1/files/tag,/egov-common-masters/departments/_search,/pt-property/property/propertytypes/_search,/pt-property/properties/_search,/pt-property/property/usages/_search,/egov-idgen/id/_generate,/egf-masters/financialyears/_search,/egov-common-workflows/process/_start,/egov-common-workflows/process/_search,/egov-common-workflows/tasks,/egov-common-workflows/tasks/{id}/_update,/user/_search,/billing-service/demand/_dues,/billing-service/bill/_generate,/billing-service/demand/_create,/wcms/masters/waterchargesconfig/_search,/wcms/masters/usagetypes/_search,/wcms/masters/pipesizes/_search,/wcms-connection/connection/_getbillingtypes,/wcms-connection/connection/_getconnectiontypes,/wcms/masters/sourcetypes/_search,/wcms/masters/supplytypes/_search,/wcms/masters/storagereservoirs/_search,/wcms/masters/treatmentplants/_search,/wcms/masters/documenttypes-applicationtypes/_search,/wcms/masters/donations/_search,/wcms/masters/nonmeterwaterrates/_search,/wcms-connection/connection/_create,/egov-common-masters/genders/_search,/egov-common-workflows/designations/_search,/access/v1/actions/mdms/_get,/tl-services/v1/BPAREG/_create,/tl-services/v1/BPAREG/_update,/tl-calculator/v1/BPAREG/_getbill,/property-services/property/_search,/billing-service/bill/v2/_search,/egov-location/location/v11/boundarys/_search,/pg-service/transaction/v1/_create,/collection-services/payments/_search,/pdf-service/v1/_create,/billing-service/bill/v2/_fetchbill,/pg-service/transaction/v1/_update,/ws-services/wc/_search,/sw-services/swc/_search,/edcr/rest/dcr/scrutinydetails,/edcr/rest/dcr/occomparison,/egov-pdf/download/PAYMENT/consolidatedreceipt,/collection-services/payments/PT/_search,/collection-services/payments/WS/_search,/collection-services/payments/SW/_search,/collection-services/payments/WS.ONE_TIME_FEE/_search,/collection-services/payments/SW.ONE_TIME_FEE/_search,/turn-io-adapter/_transform,/egov-user-event/v1/events/_search"
 
@@ -659,7 +661,7 @@ kafka-v2:
 #       cpu: 300m
 #       memory: 384Mi
 
-# zookeeper-v2 Azure >>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
+## zookeeper-v2 Azure >>>>>>>>>>>>>>>>>>>>>>>>>>>>>  
 #zookeeper-v2:
 #  image:
 #    tag: "5.4.1"
@@ -684,7 +686,7 @@ kafka-v2:
 #      memory: 384Mi
 
 # <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-## zookeeper-v2 SDC <<<<<<<<<<<<<<<<<
+# zookeeper-v2 SDC <<<<<<<<<<<<<<<<<
 zookeeper-v2:
  image:
    tag: "5.4.1"
@@ -701,7 +703,7 @@ zookeeper-v2:
      memory: 384Mi
 
 
-# es-v1-cluster AWS >>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# # es-v1-cluster AWS >>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # elasticsearch-data-v1:
 #   image:
 #     tag: 6.6.2
@@ -742,7 +744,7 @@ zookeeper-v2:
 #    limits:
 #      memory: "896Mi" 
 
-## es-data-v1 SDC<<<<<<<<<<<<<<<
+# es-data-v1 SDC<<<<<<<<<<<<<<<
 elasticsearch-data-v1:
  image:
    tag: 6.6.2
@@ -750,14 +752,14 @@ elasticsearch-data-v1:
    enabled: false
  storage-size: 25Gi
  esJavaOpts: "-Xmx1g -Xms1g"
-  storage-size: 25Gi 
+ storage-size: 25Gi 
  resources:
    requests:
      memory: "896Mi"
-   limits:
-     memory: "896Mi" 
+  #  limits:
+  #    memory: "896Mi" 
 
-### es-master-v1 AWS >>>>>>>>>>>>>>>>>>>>
+# ### es-master-v1 AWS >>>>>>>>>>>>>>>>>>>>
 
 # elasticsearch-master-v1:
 #   replicas: 3
@@ -802,9 +804,9 @@ elasticsearch-data-v1:
 #    limits:
 #      memory: "896Mi"   
 
-## es-master-v1 SDC <<<<<<<<<<<<<<<<<<<<
+# es-master-v1 SDC <<<<<<<<<<<<<<<<<<<<
 elasticsearch-master-v1:
- replicas: 1
+ replicas: 3
  image:
    tag: 6.6.2
  persistence:
