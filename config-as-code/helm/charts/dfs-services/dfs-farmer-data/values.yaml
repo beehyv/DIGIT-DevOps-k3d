@@ -40,14 +40,18 @@ env: |
     value: "false"  
   - name: MANAGEMENT_SECURITY_ENABLED
     value: "false"
-  - name: BD_KAFKA_CREATE_TOPIC
-    value: "save-farmer-bank-details"
-  - name: BD_KAFKA_UPDATE_TOPIC
-    value: "update-farmer-bank-details"
-  - name: BD_INDIVIDUAL_HOST
+  - name: state_level_tenant_id
+    value: "pg"
+  - name: dbt_registry_host
+    value: "https://dbtagriculture.bihar.gov.in"
+  - name: dbt_registry_getAgriFarmerDetailsUrl
+    value: "/AgricultureWebservice.asmx/GetAgriFarmerDetails"
+  - name: dbt_registry_userId
+    configMapKeyRef:
+        name: egov-config
+        key: dbt-user
+  - name: dbt_registry_password 
     valueFrom:
-          configMapKeyRef:
-            name: egov-service-host
-            key: individual
-  - name: BD_INDIVIDUAL_SEARCH_ENDPOINT
-    value: "/individual/v1/_search"
+      secretKeyRef:
+        name: egov-filestore
+        key: dbt-pass
