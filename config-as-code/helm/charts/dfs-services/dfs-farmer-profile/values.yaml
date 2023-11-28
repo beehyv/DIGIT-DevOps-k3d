@@ -1,0 +1,51 @@
+# Common Labels
+labels:
+  app: "dfs-farmer-profile"
+  group: "dfs"
+
+# Ingress Configs
+ingress:
+  enabled: true
+  zuul: true
+  context: "farmer-profile"
+
+# Container Configs
+image:
+  repository: "dfs-farmer-profile"
+replicas: "1"
+healthChecks:
+  enabled: true
+  livenessProbePath: "/farmer-profile/health"
+  readinessProbePath: "/farmer-profile/health"
+appType: "java-spring"
+tracing-enabled: true
+heap: "-Xmx192m -Xms192m"
+
+# Additional Container Envs
+env: |
+  - name: SERVER_PORT
+    value: "8080"
+  - name: JAVA_OPTS
+    value: {{ index .Values "heap" | quote }}
+  - name: SECURITY_BASIC_ENABLED
+    value: "false"  
+  - name: MANAGEMENT_SECURITY_ENABLED
+    value: "false"
+  - name: FP_INDIVIDUAL_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: individual
+  - name: FP_INDIVIDUAL_CREATE_ENDPOINT
+    value: "/individual/v1/_create"
+  - name: FP_INDIVIDUAL_UPDATE_ENDPOINT
+    value: "/individual/v1/_update"
+  - name: FP_BANKDETAILS_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: dfs-bank-details
+  - name: FP_BANKDETAILS_CREATE_ENDPOINT
+    value: "/farmer-bank-details/v1/_create"
+  - name: FP_BANKDETAILS_UPDATE_ENDPOINT
+      value: "/farmer-bank-details/v1/_update"
