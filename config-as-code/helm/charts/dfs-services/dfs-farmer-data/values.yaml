@@ -47,7 +47,8 @@ env: |
   - name: dbt_registry_getAgriFarmerDetailsUrl
     value: "/AgricultureWebservice.asmx/GetAgriFarmerDetails"
   - name: dbt_registry_userId
-    configMapKeyRef:
+    valueFrom:
+      configMapKeyRef:
         name: egov-config
         key: dbt-user
   - name: dbt_registry_password 
