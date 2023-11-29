@@ -14,7 +14,7 @@ image:
   repository: "dfs-farmer-profile"
 replicas: "1"
 healthChecks:
-  enabled: true
+  enabled: false
   livenessProbePath: "/farmer-profile/health"
   readinessProbePath: "/farmer-profile/health"
 appType: "java-spring"
