@@ -23,7 +23,7 @@ image:
   repository: "dfs-farmer-bank-details"
 replicas: "1"
 healthChecks:
-  enabled: true
+  enabled: false
   livenessProbePath: "/farmer-bank-details/health"
   readinessProbePath: "/farmer-bank-details/health"
 appType: "java-spring"
