@@ -8,16 +8,6 @@ ingress:
   enabled: true
   zuul: true
   context: "dfs-farmer-data"
-
-# Init Containers Configs
-initContainers:
-  dbMigration:
-    enabled: false
-    schemaTable: "dfs_schema"
-    image:
-      repository: "dfs-bank-details-db"
-
-
 # Container Configs
 image:
   repository: "dfs-farmer-data"
@@ -40,18 +30,18 @@ env: |
     value: "false"  
   - name: MANAGEMENT_SECURITY_ENABLED
     value: "false"
-  - name: state_level_tenant_id
+  - name: STATE_LEVEL_TENANT_ID
     value: "pg"
-  - name: dbt_registry_host
+  - name: DBT_REGISTRY_HOST
     value: "https://dbtagriculture.bihar.gov.in"
   - name: dbt_registry_getAgriFarmerDetailsUrl
     value: "/AgricultureWebservice.asmx/GetAgriFarmerDetails"
-  - name: dbt_registry_userId
+  - name: DBT_REGISTRY_USERID
     valueFrom:
       configMapKeyRef:
         name: egov-config
         key: dbt-user
-  - name: dbt_registry_password 
+  - name: DBT_REGISTRY_PASSWORD 
     valueFrom:
       secretKeyRef:
         name: egov-filestore
