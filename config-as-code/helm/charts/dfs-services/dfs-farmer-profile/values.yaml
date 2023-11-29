@@ -48,4 +48,4 @@ env: |
   - name: FP_BANKDETAILS_CREATE_ENDPOINT
     value: "/farmer-bank-details/v1/_create"
   - name: FP_BANKDETAILS_UPDATE_ENDPOINT
-      value: "/farmer-bank-details/v1/_update"
+    value: "/farmer-bank-details/v1/_update"
