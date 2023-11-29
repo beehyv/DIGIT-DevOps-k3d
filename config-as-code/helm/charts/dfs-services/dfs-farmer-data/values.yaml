@@ -13,7 +13,7 @@ image:
   repository: "dfs-farmer-data"
 replicas: "1"
 healthChecks:
-  enabled: true
+  enabled: false
   livenessProbePath: "/dfs-farmer-data/health"
   readinessProbePath: "/dfs-farmer-data/health"
 appType: "java-spring"
