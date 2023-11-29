@@ -1,0 +1,56 @@
+# Common Labels
+labels:
+  app: "schemes"
+  group: "rainmaker"
+
+# Ingress Configs
+ingress:
+  enabled: true
+  zuul: true
+  context: "farmer-schemes"
+
+# Init Containers Configs
+initContainers:
+  dbMigration:
+    enabled: true
+    schemaTable: "dfs_schemes_schema"
+    image:
+      repository: "dfs-schemes-db"
+
+# Container Configs
+image:
+  repository: "dfs-schemes"
+replicas: "1"
+healthChecks:
+  enabled: false
+  livenessProbePath: "/farmer-schemes/health"
+  readinessProbePath: "/farmer-schemes/health"
+appType: "java-spring"
+tracing-enabled: true
+heap: "-Xmx192m -Xms192m"
+
+# Additional Container Envs
+env: |
+  - name: SERVER_PORT
+    value: "8080"
+  - name: JAVA_OPTS
+    value: {{ index .Values "heap" | quote }}
+  - name: SECURITY_BASIC_ENABLED
+    value: "false"  
+  - name: MANAGEMENT_SECURITY_ENABLED
+    value: "false"
+  - name: scheme_kafka_create_topic
+    value: "save-scheme"
+  - name: scheme_application_kafka_create_topic
+    value: "save-scheme-application"
+  - name: scheme_kafka_update_topic
+    value: "update-scheme"
+  - name: scheme_boundary_kafka_delete_topic
+    value: "delete-scheme-boundary"
+  - name: DFS_INDIVIDUAL_HOST
+    valueFrom:
+          configMapKeyRef:
+            name: egov-service-host
+            key: individual
+  - name: DFS_INDIVIDUAL_SEARCH_ENDPOINT
+    value: "/individual/v1/_search"

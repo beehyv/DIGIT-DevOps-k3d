@@ -1,21 +1,21 @@
 # Common Labels
 labels:
-  app: "dfs-farmer-data"
+  app: "dfs-dbt-service"
   group: "dfs"
 
 # Ingress Configs
 ingress:
   enabled: true
   zuul: true
-  context: "dfs-farmer-data"
+  context: "farmer"
 # Container Configs
 image:
-  repository: "dfs-farmer-data"
+  repository: "dfs-dbt-service"
 replicas: "1"
 healthChecks:
   enabled: false
-  livenessProbePath: "/dfs-farmer-data/health"
-  readinessProbePath: "/dfs-farmer-data/health"
+  livenessProbePath: "/dfs-dbt-service/health"
+  readinessProbePath: "/dfs-dbt-service/health"
 appType: "java-spring"
 tracing-enabled: true
 heap: "-Xmx192m -Xms192m"
