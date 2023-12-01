@@ -1,0 +1,68 @@
+# Common Labels
+labels:
+  app: "dfs-asset-facility"
+  group: "dfs"
+
+# Ingress Configs
+ingress:
+  enabled: true
+  zuul: true
+  context: "facility"
+
+# Init Containers Configs
+initContainers:
+  dbMigration:
+    enabled: true
+    schemaTable: "facility"
+    image:
+      repository: "dfs-assets-facility-db"
+
+
+# Container Configs
+image:
+  repository: "dfs-assets-facility"
+replicas: "1"
+healthChecks:
+  enabled: false
+  livenessProbePath: "/facility/health"
+  readinessProbePath: "/facility/health"
+appType: "java-spring"
+tracing-enabled: true
+heap: "-Xmx192m -Xms192m"
+
+# Additional Container Envs
+env: |
+  - name: SERVER_PORT
+    value: "8080"
+  - name: JAVA_OPTS
+    value: {{ index .Values "heap" | quote }}
+  - name: SECURITY_BASIC_ENABLED
+    value: "false"  
+  - name: MANAGEMENT_SECURITY_ENABLED
+    value: "false"
+  - name: FACILITY_KAFKA_CREATE_TOPIC
+    value: "save-facility-topic"
+  - name: FACILITY_KAFKA_UPDATE_TOPIC
+    value: "update-facility-topic"
+  - name: FACILITY_KAFKA_DELETE_TOPIC
+    value: "delete-facility-topic"
+  - name: FACILITY_CONSUMER_BULK_CREATE_TOPIC
+    value: "create-facility-bulk-topic"
+  - name: FACILITY_CONSUMER_BULK_UPDATE_TOPIC
+    value: "update-facility-bulk-topic"
+  - name: FACILITY_CONSUMER_BULK_DELETE_TOPIC
+    value: "delete-facility-bulk-topic"
+  - name: EGOV_IDGEN_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: egov-idgen
+  - name: EGOV_MDMS_HOST
+    valueFrom:
+      configMapKeyRef:
+        name: egov-service-host
+        key: egov-mdms-service  
+  - name: SPRING_REDIS_HOST
+    value: redis.backbone
+  - name: SPRING_REDIS_PORT
+    value: "6379"
