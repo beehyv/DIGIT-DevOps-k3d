@@ -71,17 +71,17 @@ env: |
     valueFrom:
       secretKeyRef:
         name: egov-enc-service
-        key: master.password    
+        key: master-password    
   - name: MASTER_SALT
     valueFrom:
       secretKeyRef:
         name: egov-enc-service
-        key: master.salt
+        key: master-salt
   - name: MASTER_INITIALVECTOR
     valueFrom:
       secretKeyRef:
         name: egov-enc-service
-        key: master.initialvector
+        key: master-initialvector
   {{- end }}
   {{- if eq (index .Values "master-password-provider") "awskms" }}
   - name: AWS_KMS_REGION
