@@ -34,7 +34,7 @@ env: |
   - name: SERVER_PORT
     value: "8080"
   - name: sms_default_otp
-    value: true
+    value: "true"
   - name: sms_default_otp_number
     value: "123456"
   - name: JAVA_OPTS
