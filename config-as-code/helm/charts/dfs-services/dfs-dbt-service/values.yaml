@@ -31,7 +31,7 @@ env: |
   - name: MANAGEMENT_SECURITY_ENABLED
     value: "false"
   - name: STATE_LEVEL_TENANT_ID
-    value: "pg"
+    value: "br"
   - name: DBT_REGISTRY_HOST
     value: "https://dbtagriculture.bihar.gov.in"
   - name: dbt_registry_getAgriFarmerDetailsUrl
